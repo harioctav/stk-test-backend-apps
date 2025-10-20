@@ -8,6 +8,7 @@ A RESTful API for hierarchical menu management built with Go, Gin, and GORM.
 - Hierarchical menu structure (parent-child relationships)
 - Get menus in flat or hierarchical format
 - **UUID support** for secure and distributed identification
+- **CORS enabled** for frontend integration
 - Clean Architecture implementation
 - RESTful API design
 - Auto-generated UUID for each menu
@@ -49,6 +50,7 @@ A RESTful API for hierarchical menu management built with Go, Gin, and GORM.
    DB_NAME=stk_menu_system
    SERVER_PORT=8080
    APP_ENV=development
+   ALLOWED_ORIGINS=http://localhost:3000,http://localhost:3001,http://localhost:5173
    ```
 
 4. **Create database**
@@ -338,6 +340,68 @@ GET /api/menus/uuid/550e8400-e29b-41d4-a716-446655440000
 ```
 
 Both endpoints return the same menu, but UUID is safer for external use.
+
+## 🌐 CORS Configuration
+
+This API is configured with CORS (Cross-Origin Resource Sharing) to allow frontend applications to access it.
+
+### Allowed Origins
+
+By default, the following origins are allowed:
+
+- `http://localhost:3000` (React default)
+- `http://localhost:3001` (Alternative React port)
+- `http://localhost:5173` (Vite default)
+
+### Configure CORS
+
+You can configure allowed origins in the `.env` file:
+
+```env
+ALLOWED_ORIGINS=http://localhost:3000,https://yourapp.com,https://www.yourapp.com
+```
+
+**Multiple origins:** Separate with commas (no spaces)
+
+### CORS Settings
+
+The API allows:
+
+- **Methods:** GET, POST, PUT, DELETE, OPTIONS
+- **Headers:** Origin, Content-Type, Accept, Authorization
+- **Credentials:** Enabled (for cookies/auth)
+- **Max Age:** 12 hours (preflight cache)
+
+### Frontend Integration Example
+
+**Fetch API:**
+
+```javascript
+fetch("http://localhost:8080/api/menus/hierarchy")
+	.then((response) => response.json())
+	.then((data) => console.log(data))
+	.catch((error) => console.error("Error:", error));
+```
+
+**Axios:**
+
+```javascript
+axios
+	.get("http://localhost:8080/api/menus/hierarchy")
+	.then((response) => console.log(response.data))
+	.catch((error) => console.error("Error:", error));
+```
+
+**With Credentials:**
+
+```javascript
+fetch("http://localhost:8080/api/menus/hierarchy", {
+	credentials: "include", // Send cookies
+	headers: {
+		Authorization: "Bearer your-token-here",
+	},
+});
+```
 
 ## 🤝 Contributing
 

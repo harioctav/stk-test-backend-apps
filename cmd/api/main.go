@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"time"
 
 	"stk-technical-test-api/internal/config"
 	"stk-technical-test-api/internal/database"
@@ -9,6 +10,7 @@ import (
 	"stk-technical-test-api/internal/repository"
 	"stk-technical-test-api/internal/service"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -29,7 +31,7 @@ func main() {
 	menuHandler := handler.NewMenuHandler(menuService)
 
 	// Setup Gin router
-	router := setupRouter(menuHandler, cfg.App.Env)
+	router := setupRouter(menuHandler, cfg)
 
 	// Start server
 	log.Printf("Server starting on port %s...", cfg.Server.Port)
@@ -38,13 +40,23 @@ func main() {
 	}
 }
 
-func setupRouter(menuHandler *handler.MenuHandler, env string) *gin.Engine {
+func setupRouter(menuHandler *handler.MenuHandler, cfg *config.Config) *gin.Engine {
 	// Set Gin mode
-	if env == "production" {
+	if cfg.App.Env == "production" {
 		gin.SetMode(gin.ReleaseMode)
 	}
 
 	router := gin.Default()
+
+	// CORS Configuration
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     cfg.CORS.AllowedOrigins,
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 
 	// Health check endpoint
 	router.GET("/health", func(c *gin.Context) {

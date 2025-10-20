@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/joho/godotenv"
 )
@@ -12,6 +13,7 @@ type Config struct {
 	Database DatabaseConfig
 	Server   ServerConfig
 	App      AppConfig
+	CORS     CORSConfig
 }
 
 type DatabaseConfig struct {
@@ -28,6 +30,10 @@ type ServerConfig struct {
 
 type AppConfig struct {
 	Env string
+}
+
+type CORSConfig struct {
+	AllowedOrigins []string
 }
 
 func LoadConfig() *Config {
@@ -51,6 +57,9 @@ func LoadConfig() *Config {
 		App: AppConfig{
 			Env: getEnv("APP_ENV", "development"),
 		},
+		CORS: CORSConfig{
+			AllowedOrigins: getCORSOrigins(),
+		},
 	}
 }
 
@@ -70,5 +79,10 @@ func getEnv(key, defaultValue string) string {
 		return defaultValue
 	}
 	return value
+}
+
+func getCORSOrigins() []string {
+	origins := getEnv("ALLOWED_ORIGINS", "http://localhost:3000,http://localhost:3001,http://localhost:5173")
+	return strings.Split(origins, ",")
 }
 
