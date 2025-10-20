@@ -1,0 +1,565 @@
+{
+	"info": {
+		"_postman_id": "stk-menu-api-001",
+		"name": "STK Menu Management API",
+		"description": "Complete API collection for hierarchical menu management system",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Health Check",
+			"item": [
+				{
+					"name": "Health Check",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/health",
+							"host": ["{{base_url}}"],
+							"path": ["health"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Menus - Create Data",
+			"item": [
+				{
+					"name": "01 - Create Root: system.management",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"system.management\",\n  \"code\": \"system_management\",\n  \"order_index\": 1,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02 - Create L1: System Management",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 1,\n  \"name\": \"System Management\",\n  \"code\": \"system_mgmt\",\n  \"description\": \"System management module\",\n  \"route\": \"/system\",\n  \"icon\": \"settings\",\n  \"order_index\": 1,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03 - Create L2: Systems",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 2,\n  \"name\": \"Systems\",\n  \"code\": \"systems\",\n  \"description\": \"Systems module\",\n  \"route\": \"/system/systems\",\n  \"icon\": \"database\",\n  \"order_index\": 1,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "04 - Create L3: System Code",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 3,\n  \"name\": \"System Code\",\n  \"code\": \"system_code\",\n  \"description\": \"System code management\",\n  \"route\": \"/system/systems/code\",\n  \"icon\": \"code\",\n  \"order_index\": 1,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "05 - Create L4: Code Registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 4,\n  \"name\": \"Code Registration\",\n  \"code\": \"code_registration\",\n  \"route\": \"/system/systems/code/registration\",\n  \"icon\": \"file-plus\",\n  \"order_index\": 1,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "06 - Create L4: Code Registration -2",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 4,\n  \"name\": \"Code Registration -2\",\n  \"code\": \"code_registration_2\",\n  \"route\": \"/system/systems/code/registration-2\",\n  \"icon\": \"file-plus\",\n  \"order_index\": 2,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "07 - Create L4: Properties",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 4,\n  \"name\": \"Properties\",\n  \"code\": \"properties\",\n  \"route\": \"/system/systems/code/properties\",\n  \"icon\": \"settings\",\n  \"order_index\": 3,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "08 - Create L3: Menus",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 3,\n  \"name\": \"Menus\",\n  \"code\": \"menus_list\",\n  \"route\": \"/system/systems/menus\",\n  \"icon\": \"menu\",\n  \"order_index\": 2,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "09 - Create L4: Menu Registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 8,\n  \"name\": \"Menu Registration\",\n  \"code\": \"menu_registration\",\n  \"route\": \"/system/systems/menus/registration\",\n  \"icon\": \"plus-square\",\n  \"order_index\": 1,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10 - Create L3: API List",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 3,\n  \"name\": \"API List\",\n  \"code\": \"api_list\",\n  \"route\": \"/system/systems/api\",\n  \"icon\": \"list\",\n  \"order_index\": 3,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11 - Create L4: API Registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 10,\n  \"name\": \"API Registration\",\n  \"code\": \"api_registration\",\n  \"route\": \"/system/systems/api/registration\",\n  \"icon\": \"plus-circle\",\n  \"order_index\": 1,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12 - Create L4: API Edit",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 10,\n  \"name\": \"API Edit\",\n  \"code\": \"api_edit\",\n  \"route\": \"/system/systems/api/edit\",\n  \"icon\": \"edit\",\n  \"order_index\": 2,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "13 - Create L2: Users & Groups",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 2,\n  \"name\": \"Users & Groups\",\n  \"code\": \"users_groups\",\n  \"route\": \"/system/users-groups\",\n  \"icon\": \"users\",\n  \"order_index\": 2,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "14 - Create L3: Users",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 13,\n  \"name\": \"Users\",\n  \"code\": \"users\",\n  \"route\": \"/system/users-groups/users\",\n  \"icon\": \"user\",\n  \"order_index\": 1,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "15 - Create L4: User Account Registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 14,\n  \"name\": \"User Account Registration\",\n  \"code\": \"user_account_registration\",\n  \"route\": \"/system/users-groups/users/registration\",\n  \"icon\": \"user-plus\",\n  \"order_index\": 1,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "16 - Create L3: Groups",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 13,\n  \"name\": \"Groups\",\n  \"code\": \"groups\",\n  \"route\": \"/system/users-groups/groups\",\n  \"icon\": \"users\",\n  \"order_index\": 2,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "17 - Create L4: User Group Registration",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 16,\n  \"name\": \"User Group Registration\",\n  \"code\": \"user_group_registration\",\n  \"route\": \"/system/users-groups/groups/registration\",\n  \"icon\": \"users-cog\",\n  \"order_index\": 1,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "18 - Create L1: 사용자 승인",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 1,\n  \"name\": \"사용자 승인\",\n  \"code\": \"user_approval\",\n  \"route\": \"/system/user-approval\",\n  \"icon\": \"check-circle\",\n  \"order_index\": 3,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "19 - Create L2: 사용자 승인 상세",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 18,\n  \"name\": \"사용자 승인 상세\",\n  \"code\": \"user_approval_detail\",\n  \"route\": \"/system/user-approval/detail\",\n  \"icon\": \"file-text\",\n  \"order_index\": 1,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Menus - Read",
+			"item": [
+				{
+					"name": "Get All Menus (Flat)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/menus",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Menu Hierarchy",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/menus/hierarchy",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus", "hierarchy"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Menu by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/menus/1",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus", "1"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Menu by UUID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/menus/uuid/{{menu_uuid}}",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus", "uuid", "{{menu_uuid}}"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Menus - Update",
+			"item": [
+				{
+					"name": "Update Menu",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"parent_id\": 1,\n  \"name\": \"System Management Updated\",\n  \"code\": \"system_mgmt\",\n  \"description\": \"Updated description\",\n  \"route\": \"/system\",\n  \"icon\": \"settings\",\n  \"order_index\": 1,\n  \"is_active\": true\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/menus/2",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus", "2"]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Menus - Delete",
+			"item": [
+				{
+					"name": "Delete Menu",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/menus/5",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus", "5"]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "menu_uuid",
+			"value": "your-menu-uuid-here",
+			"type": "string"
+		}
+	]
+}
