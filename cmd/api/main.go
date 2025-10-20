@@ -73,7 +73,11 @@ func setupRouter(menuHandler *handler.MenuHandler, cfg *config.Config) *gin.Engi
 		menus := api.Group("/menus")
 		{
 			menus.GET("/hierarchy", menuHandler.GetMenuHierarchy)
+			menus.GET("/root", menuHandler.GetRootMenus)
 			menus.GET("/uuid/:uuid", menuHandler.GetMenuByUUID)
+			menus.GET("/:id/hierarchy", menuHandler.GetHierarchyByRootID)
+			menus.GET("/:id/detail", menuHandler.GetMenuDetail)
+			menus.GET("/:id/children", menuHandler.GetChildrenByParentID)
 			menus.GET("", menuHandler.GetAllMenus)
 			menus.GET("/:id", menuHandler.GetMenuByID)
 			menus.POST("", menuHandler.CreateMenu)

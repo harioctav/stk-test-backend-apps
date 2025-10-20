@@ -477,6 +477,19 @@
 					"response": []
 				},
 				{
+					"name": "Get Root Menus",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/menus/root",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus", "root"]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Get Menu by ID",
 					"request": {
 						"method": "GET",
@@ -498,6 +511,45 @@
 							"raw": "{{base_url}}/api/menus/uuid/{{menu_uuid}}",
 							"host": ["{{base_url}}"],
 							"path": ["api", "menus", "uuid", "{{menu_uuid}}"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Hierarchy by Root ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/menus/1/hierarchy",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus", "1", "hierarchy"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Menu Detail (with parent info)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/menus/4/detail",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus", "4", "detail"]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Children by Parent ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/menus/3/children",
+							"host": ["{{base_url}}"],
+							"path": ["api", "menus", "3", "children"]
 						}
 					},
 					"response": []

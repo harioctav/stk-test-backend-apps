@@ -102,6 +102,14 @@ func (r *menuRepository) FindByParentID(parentID *int64) ([]domain.Menu, error) 
 	return menus, err
 }
 
+func (r *menuRepository) FindRootMenus() ([]domain.Menu, error) {
+	var menus []domain.Menu
+	err := r.db.Where("parent_id IS NULL").
+		Order("order_index ASC, id ASC").
+		Find(&menus).Error
+	return menus, err
+}
+
 func (r *menuRepository) FindHierarchical() ([]domain.Menu, error) {
 	var rootMenus []domain.Menu
 
@@ -134,5 +142,57 @@ func (r *menuRepository) loadChildren(menu *domain.Menu) {
 		}
 		menu.Children = children
 	}
+}
+
+func (r *menuRepository) FindHierarchicalByRootID(rootID int64) ([]domain.Menu, error) {
+	var rootMenu domain.Menu
+
+	// Get the specific root menu
+	err := r.db.First(&rootMenu, rootID).Error
+	if err != nil {
+		return nil, err
+	}
+
+	// Load children recursively
+	r.loadChildren(&rootMenu)
+
+	return []domain.Menu{rootMenu}, nil
+}
+
+func (r *menuRepository) FindDetailByID(id int64) (*domain.MenuDetail, error) {
+	var menu domain.Menu
+	err := r.db.First(&menu, id).Error
+	if err != nil {
+		return nil, err
+	}
+
+	detail := &domain.MenuDetail{
+		Menu:  menu,
+		Depth: menu.Level,
+	}
+
+	// Get parent data if exists
+	if menu.ParentID != nil {
+		var parent domain.Menu
+		err := r.db.First(&parent, *menu.ParentID).Error
+		if err == nil {
+			detail.ParentData = &domain.MenuParentInfo{
+				ID:   parent.ID,
+				UUID: parent.UUID,
+				Name: parent.Name,
+				Code: parent.Code,
+			}
+		}
+	}
+
+	return detail, nil
+}
+
+func (r *menuRepository) FindChildrenByParentID(parentID int64) ([]domain.Menu, error) {
+	var menus []domain.Menu
+	err := r.db.Where("parent_id = ?", parentID).
+		Order("order_index ASC, id ASC").
+		Find(&menus).Error
+	return menus, err
 }
 

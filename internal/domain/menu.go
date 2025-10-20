@@ -22,6 +22,21 @@ type Menu struct {
 	Children    []Menu     `json:"children,omitempty" gorm:"foreignKey:ParentID"`
 }
 
+// MenuDetail represents menu with parent information
+type MenuDetail struct {
+	Menu
+	ParentData *MenuParentInfo `json:"parent_data,omitempty"`
+	Depth      int             `json:"depth"`
+}
+
+// MenuParentInfo represents parent menu basic info
+type MenuParentInfo struct {
+	ID   int64  `json:"id"`
+	UUID string `json:"uuid"`
+	Name string `json:"name"`
+	Code string `json:"code"`
+}
+
 // TableName specifies the table name for Menu
 func (Menu) TableName() string {
 	return "menus"
@@ -60,7 +75,11 @@ type MenuRepository interface {
 	FindByUUID(uuid string) (*Menu, error)
 	FindAll() ([]Menu, error)
 	FindByParentID(parentID *int64) ([]Menu, error)
+	FindRootMenus() ([]Menu, error)
 	FindHierarchical() ([]Menu, error)
+	FindHierarchicalByRootID(rootID int64) ([]Menu, error)
+	FindDetailByID(id int64) (*MenuDetail, error)
+	FindChildrenByParentID(parentID int64) ([]Menu, error)
 }
 
 // MenuService defines the interface for menu business logic
@@ -71,6 +90,10 @@ type MenuService interface {
 	GetMenuByID(id int64) (*Menu, error)
 	GetMenuByUUID(uuid string) (*Menu, error)
 	GetAllMenus() ([]Menu, error)
+	GetRootMenus() ([]Menu, error)
 	GetMenuHierarchy() ([]Menu, error)
+	GetHierarchyByRootID(rootID int64) ([]Menu, error)
+	GetMenuDetail(id int64) (*MenuDetail, error)
+	GetChildrenByParentID(parentID int64) ([]Menu, error)
 }
 

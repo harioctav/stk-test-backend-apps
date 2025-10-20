@@ -80,15 +80,19 @@ The server will start at `http://localhost:8080`
 
 ### Menu Management
 
-| Method | Endpoint                | Description                             |
-| ------ | ----------------------- | --------------------------------------- |
-| GET    | `/api/menus/hierarchy`  | Get all menus in hierarchical structure |
-| GET    | `/api/menus`            | Get all menus (flat list)               |
-| GET    | `/api/menus/:id`        | Get a specific menu by ID               |
-| GET    | `/api/menus/uuid/:uuid` | **NEW!** Get a specific menu by UUID    |
-| POST   | `/api/menus`            | Create a new menu (UUID auto-generated) |
-| PUT    | `/api/menus/:id`        | Update an existing menu                 |
-| DELETE | `/api/menus/:id`        | Delete a menu                           |
+| Method | Endpoint                   | Description                                        |
+| ------ | -------------------------- | -------------------------------------------------- |
+| GET    | `/api/menus/hierarchy`     | Get all menus in hierarchical structure            |
+| GET    | `/api/menus/root`          | Get root menus only (no parent)                    |
+| GET    | `/api/menus/:id/hierarchy` | **NEW!** Get hierarchy tree for specific root menu |
+| GET    | `/api/menus/:id/detail`    | **NEW!** Get menu detail with parent info & depth  |
+| GET    | `/api/menus/:id/children`  | **NEW!** Get direct children of a menu (flat)      |
+| GET    | `/api/menus`               | Get all menus (flat list)                          |
+| GET    | `/api/menus/:id`           | Get a specific menu by ID                          |
+| GET    | `/api/menus/uuid/:uuid`    | Get a specific menu by UUID                        |
+| POST   | `/api/menus`               | Create a new menu (UUID auto-generated)            |
+| PUT    | `/api/menus/:id`           | Update an existing menu                            |
+| DELETE | `/api/menus/:id`           | Delete a menu                                      |
 
 ## 📝 Request/Response Examples
 
@@ -252,6 +256,58 @@ curl http://localhost:8080/api/menus/hierarchy
 ```bash
 curl http://localhost:8080/api/menus/uuid/550e8400-e29b-41d4-a716-446655440000
 ```
+
+### Get root menus only
+
+```bash
+curl http://localhost:8080/api/menus/root
+```
+
+### Get hierarchy by specific root ID
+
+```bash
+curl http://localhost:8080/api/menus/1/hierarchy
+```
+
+Response: Tree structure for specific root menu only
+
+### Get menu detail with parent info
+
+```bash
+curl http://localhost:8080/api/menus/4/detail
+```
+
+Response includes parent data and depth:
+
+```json
+{
+	"success": true,
+	"message": "Menu detail retrieved successfully",
+	"data": {
+		"id": 4,
+		"uuid": "...",
+		"parent_id": 3,
+		"name": "System Code",
+		"code": "system_code",
+		"level": 3,
+		"parent_data": {
+			"id": 3,
+			"uuid": "...",
+			"name": "Systems",
+			"code": "systems"
+		},
+		"depth": 3
+	}
+}
+```
+
+### Get direct children
+
+```bash
+curl http://localhost:8080/api/menus/3/children
+```
+
+Response: Flat list of direct children only (not recursive)
 
 ## 🔒 Database Schema
 

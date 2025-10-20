@@ -126,10 +126,58 @@ func (s *menuService) GetAllMenus() ([]domain.Menu, error) {
 	return menus, nil
 }
 
+func (s *menuService) GetRootMenus() ([]domain.Menu, error) {
+	menus, err := s.repo.FindRootMenus()
+	if err != nil {
+		return nil, fmt.Errorf("failed to get root menus: %w", err)
+	}
+	return menus, nil
+}
+
 func (s *menuService) GetMenuHierarchy() ([]domain.Menu, error) {
 	menus, err := s.repo.FindHierarchical()
 	if err != nil {
 		return nil, fmt.Errorf("failed to get menu hierarchy: %w", err)
+	}
+	return menus, nil
+}
+
+func (s *menuService) GetHierarchyByRootID(rootID int64) ([]domain.Menu, error) {
+	// Check if menu exists and is a root menu
+	menu, err := s.repo.FindByID(rootID)
+	if err != nil {
+		return nil, fmt.Errorf("root menu not found")
+	}
+
+	if menu.ParentID != nil {
+		return nil, fmt.Errorf("menu is not a root menu")
+	}
+
+	menus, err := s.repo.FindHierarchicalByRootID(rootID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get menu hierarchy: %w", err)
+	}
+	return menus, nil
+}
+
+func (s *menuService) GetMenuDetail(id int64) (*domain.MenuDetail, error) {
+	detail, err := s.repo.FindDetailByID(id)
+	if err != nil {
+		return nil, fmt.Errorf("menu not found")
+	}
+	return detail, nil
+}
+
+func (s *menuService) GetChildrenByParentID(parentID int64) ([]domain.Menu, error) {
+	// Validate parent exists
+	_, err := s.repo.FindByID(parentID)
+	if err != nil {
+		return nil, fmt.Errorf("parent menu not found")
+	}
+
+	menus, err := s.repo.FindChildrenByParentID(parentID)
+	if err != nil {
+		return nil, fmt.Errorf("failed to get children: %w", err)
 	}
 	return menus, nil
 }

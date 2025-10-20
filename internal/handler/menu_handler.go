@@ -83,6 +83,102 @@ func (h *MenuHandler) GetAllMenus(c *gin.Context) {
 	response.Success(c, http.StatusOK, "Menus retrieved successfully", menus)
 }
 
+// GetRootMenus godoc
+// @Summary Get root menus
+// @Description Get all root menus (menus without parent)
+// @Tags menus
+// @Produce json
+// @Success 200 {object} response.Response
+// @Failure 500 {object} response.Response
+// @Router /api/menus/root [get]
+func (h *MenuHandler) GetRootMenus(c *gin.Context) {
+	menus, err := h.service.GetRootMenus()
+	if err != nil {
+		response.Error(c, http.StatusInternalServerError, "Failed to get root menus", err.Error())
+		return
+	}
+
+	response.Success(c, http.StatusOK, "Root menus retrieved successfully", menus)
+}
+
+// GetHierarchyByRootID godoc
+// @Summary Get hierarchy by root ID
+// @Description Get hierarchical menu tree for a specific root menu
+// @Tags menus
+// @Produce json
+// @Param id path int true "Root Menu ID"
+// @Success 200 {object} response.Response
+// @Failure 400 {object} response.Response
+// @Failure 404 {object} response.Response
+// @Router /api/menus/{id}/hierarchy [get]
+func (h *MenuHandler) GetHierarchyByRootID(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		response.Error(c, http.StatusBadRequest, "Invalid menu ID", err.Error())
+		return
+	}
+
+	menus, err := h.service.GetHierarchyByRootID(id)
+	if err != nil {
+		response.Error(c, http.StatusNotFound, "Failed to get menu hierarchy", err.Error())
+		return
+	}
+
+	response.Success(c, http.StatusOK, "Menu hierarchy retrieved successfully", menus)
+}
+
+// GetMenuDetail godoc
+// @Summary Get menu detail with parent info
+// @Description Get detailed menu information including parent data and depth
+// @Tags menus
+// @Produce json
+// @Param id path int true "Menu ID"
+// @Success 200 {object} response.Response
+// @Failure 400 {object} response.Response
+// @Failure 404 {object} response.Response
+// @Router /api/menus/{id}/detail [get]
+func (h *MenuHandler) GetMenuDetail(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		response.Error(c, http.StatusBadRequest, "Invalid menu ID", err.Error())
+		return
+	}
+
+	detail, err := h.service.GetMenuDetail(id)
+	if err != nil {
+		response.Error(c, http.StatusNotFound, "Menu not found", err.Error())
+		return
+	}
+
+	response.Success(c, http.StatusOK, "Menu detail retrieved successfully", detail)
+}
+
+// GetChildrenByParentID godoc
+// @Summary Get children by parent ID
+// @Description Get direct children of a menu (flat list, not recursive)
+// @Tags menus
+// @Produce json
+// @Param id path int true "Parent Menu ID"
+// @Success 200 {object} response.Response
+// @Failure 400 {object} response.Response
+// @Failure 404 {object} response.Response
+// @Router /api/menus/{id}/children [get]
+func (h *MenuHandler) GetChildrenByParentID(c *gin.Context) {
+	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+	if err != nil {
+		response.Error(c, http.StatusBadRequest, "Invalid parent ID", err.Error())
+		return
+	}
+
+	menus, err := h.service.GetChildrenByParentID(id)
+	if err != nil {
+		response.Error(c, http.StatusNotFound, "Failed to get children", err.Error())
+		return
+	}
+
+	response.Success(c, http.StatusOK, "Children retrieved successfully", menus)
+}
+
 // GetMenuByID godoc
 // @Summary Get menu by ID
 // @Description Get a single menu by ID
